@@ -101,3 +101,16 @@ model_perf <- model_perf_nested %>%
     
 # Look at the first six rows of model_perf
 head(model_perf)
+
+# Plot a histogram of rsquared for the 77 models    
+model_perf %>% 
+  ggplot(aes(x = r.squared)) + 
+  geom_histogram()  
+  
+# Extract the 4 best fitting models
+best_fit <- model_perf %>% 
+  top_n(n = 4, wt = r.squared)
+
+# Extract the 4 models with the worst fit
+worst_fit <- model_perf %>% 
+  top_n(n = 4, wt = -r.squared)
