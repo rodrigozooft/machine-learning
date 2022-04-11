@@ -28,3 +28,24 @@ max(algeria_df$population)
 
 # Calculate the mean of the population vector
 mean(algeria_df$population)
+
+# Calculate the mean population for each country
+pop_nested <- gap_nested %>%
+  mutate(mean_pop = map(.x = data, ~mean(.x$population)))
+
+# Take a look at pop_nested
+head(pop_nested)
+
+# Extract the mean_pop value by using unnest
+pop_mean <- pop_nested %>% 
+  unnest(mean_pop)
+
+# Take a look at pop_mean
+head(pop_mean)
+
+# Calculate mean population and store result as a double
+pop_mean <- gap_nested %>%
+  mutate(mean_pop = map_dbl(.x = data, ~mean(.x$population)))
+
+# Take a look at pop_mean
+head(pop_mean)
