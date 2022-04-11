@@ -59,3 +59,20 @@ algeria_model <- gap_models$model[[1]]
 
 # View the summary for the Algeria model
 summary(algeria_model)
+
+library(broom)
+
+# Extract the coefficients of the algeria_model as a data frame
+tidy(algeria_model)
+
+# Extract the statistics of the algeria_model as a data frame
+glance(algeria_model)
+
+# Build the augmented data frame
+algeria_fitted <- augment(algeria_model)
+
+# Compare the predicted values with the actual values of life expectancy
+algeria_fitted %>% 
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = life_expectancy)) + 
+  geom_line(aes(y = .fitted), color = "red")
