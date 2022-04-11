@@ -91,3 +91,13 @@ model_coef %>%
   ggplot(aes(x = estimate)) +
   geom_histogram()
 
+# Extract the fit statistics of each model into data frames
+model_perf_nested <- gap_models %>% 
+    mutate(fit = map(model, ~glance(.x)))
+
+# Simplify the fit data frames for each model    
+model_perf <- model_perf_nested %>% 
+    unnest(fit)
+    
+# Look at the first six rows of model_perf
+head(model_perf)
