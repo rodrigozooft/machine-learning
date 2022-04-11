@@ -76,3 +76,18 @@ algeria_fitted %>%
   ggplot(aes(x = year)) +
   geom_point(aes(y = life_expectancy)) + 
   geom_line(aes(y = .fitted), color = "red")
+
+# Extract the coefficient statistics of each model into nested data frames
+model_coef_nested <- gap_models %>% 
+    mutate(coef = map(model, ~tidy(.x)))
+    
+# Simplify the coef data frames for each model    
+model_coef <- model_coef_nested %>%
+    unnest(coef)
+
+# Plot a histogram of the coefficient estimates for year         
+model_coef %>% 
+  filter(term == "year") %>% 
+  ggplot(aes(x = estimate)) +
+  geom_histogram()
+
