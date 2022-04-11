@@ -49,3 +49,13 @@ pop_mean <- gap_nested %>%
 
 # Take a look at pop_mean
 head(pop_mean)
+
+# Build a linear model for each country
+gap_models <- gap_nested %>%
+    mutate(model = map(.x = data, ~lm(formula = life_expectancy~year, data = .x)))
+    
+# Extract the model for Algeria    
+algeria_model <- gap_models$model[[1]]
+
+# View the summary for the Algeria model
+summary(algeria_model)
