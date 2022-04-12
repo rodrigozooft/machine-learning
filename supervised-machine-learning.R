@@ -114,3 +114,15 @@ best_fit <- model_perf %>%
 # Extract the 4 models with the worst fit
 worst_fit <- model_perf %>% 
   top_n(n = 4, wt = -r.squared)
+
+best_augmented <- best_fit %>% 
+  # Build the augmented data frame for each country model
+  mutate(augmented = map(model, ~augment(.x))) %>% 
+  # Expand the augmented data frames
+  unnest(augmented)
+
+worst_augmented <- worst_fit %>% 
+  # Build the augmented data frame for each country model
+  mutate(augmented = map(model, ~augment(.x))) %>% 
+  # Expand the augmented data frames
+  unnest(augmented)
