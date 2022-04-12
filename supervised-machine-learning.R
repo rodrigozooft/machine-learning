@@ -173,3 +173,19 @@ testing_data <- testing(gap_split)
 # Calculate the dimensions of both training_data and testing_data
 dim(training_data)
 dim(testing_data)
+
+set.seed(42)
+
+# Prepare the data frame containing the cross validation partitions
+cv_split <- vfold_cv(training_data, v = 5)
+
+cv_data <- cv_split %>% 
+  mutate(
+    # Extract the train data frame for each split
+    train = map(.x = splits, ~training(.x)), 
+    # Extract the validate data frame for each split
+    validate = map(.x = splits, ~testing(.x))
+  )
+
+# Use head() to preview cv_data
+head(cv_data)
