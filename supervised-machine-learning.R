@@ -142,3 +142,19 @@ worst_augmented %>%
   geom_point(aes(y = life_expectancy)) + 
   geom_line(aes(y = .fitted), color = "red") +
   facet_wrap(~country, scales = "free_y")
+  
+# Build a linear model for each country using all features
+gap_fullmodel <- gap_nested %>% 
+  mutate(model = map(data, ~lm(formula = life_expectancy ~ ., data = .x)))
+
+fullmodel_perf <- gap_fullmodel %>% 
+  # Extract the fit statistics of each model into data frames
+  mutate(fit = map(model, ~glance(.x))) %>% 
+  # Simplify the fit data frames for each model
+  unnest(fit)
+  
+# View the performance for the four countries with the worst fitting 
+# four simple models you looked at before
+fullmodel_perf %>% 
+  filter(country %in% worst_fit$country) %>% 
+  select(country, adj.r.squared)
