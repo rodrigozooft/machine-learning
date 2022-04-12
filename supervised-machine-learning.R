@@ -189,3 +189,15 @@ cv_data <- cv_split %>%
 
 # Use head() to preview cv_data
 head(cv_data)
+
+# Build a model using the train data for each fold of the cross validation
+cv_models_lm <- cv_data %>% 
+  mutate(model = map(.x = train, ~lm(formula = life_expectancy ~ ., data = .x)))
+
+cv_prep_lm <- cv_models_lm %>% 
+  mutate(
+    # Extract the recorded life expectancy for the records in the validate data frames
+    validate_actual = map(validate, ~.x$life_expectancy),
+    # Predict life expectancy for each validate set using its corresponding model
+    validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y))
+  )
