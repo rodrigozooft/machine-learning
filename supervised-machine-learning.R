@@ -158,3 +158,18 @@ fullmodel_perf <- gap_fullmodel %>%
 fullmodel_perf %>% 
   filter(country %in% worst_fit$country) %>% 
   select(country, adj.r.squared)
+
+set.seed(42)
+
+# Prepare the initial split object
+gap_split <- initial_split(gapminder, prop = 0.75)
+
+# Extract the training data frame
+training_data <- training(gap_split)
+
+# Extract the testing data frame
+testing_data <- testing(gap_split)
+
+# Calculate the dimensions of both training_data and testing_data
+dim(training_data)
+dim(testing_data)
