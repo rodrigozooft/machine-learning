@@ -126,3 +126,19 @@ worst_augmented <- worst_fit %>%
   mutate(augmented = map(model, ~augment(.x))) %>% 
   # Expand the augmented data frames
   unnest(augmented)
+
+# Compare the predicted values with the actual values of life expectancy 
+# for the top 4 best fitting models
+best_augmented %>% 
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = life_expectancy)) + 
+  geom_line(aes(y = .fitted), color = "red") +
+  facet_wrap(~country, scales = "free_y")
+
+# Compare the predicted values with the actual values of life expectancy 
+# for the top 4 worst fitting models
+worst_augmented %>% 
+  ggplot(aes(x = year)) +
+  geom_point(aes(y = life_expectancy)) + 
+  geom_line(aes(y = .fitted), color = "red") +
+  facet_wrap(~country, scales = "free_y")
