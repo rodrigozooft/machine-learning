@@ -201,3 +201,14 @@ cv_prep_lm <- cv_models_lm %>%
     # Predict life expectancy for each validate set using its corresponding model
     validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y))
   )
+
+library(Metrics)
+# Calculate the mean absolute error for each validate fold       
+cv_eval_lm <- cv_prep_lm %>% 
+  mutate(validate_mae = map2_dbl(validate_actual, validate_predicted, ~mae(actual = .x, predicted = .y)))
+
+# Print the validate_mae column
+cv_eval_lm$validate_mae
+
+# Calculate the mean of validate_mae column
+mean(cv_eval_lm$validate_mae)
