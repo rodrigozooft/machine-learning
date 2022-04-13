@@ -212,3 +212,26 @@ cv_eval_lm$validate_mae
 
 # Calculate the mean of validate_mae column
 mean(cv_eval_lm$validate_mae)
+
+library(ranger)
+
+# Build a random forest model for each fold
+cv_models_rf <- cv_data %>% 
+  mutate(model = map(train, ~ranger(formula = life_expectancy ~ ., data = .x,
+                                    num.trees = 100, seed = 42)))
+
+# Generate predictions using the random forest model
+cv_prep_rf <- cv_models_rf %>% 
+  mutate(validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y)$predictions))
+
+library(ranger)
+
+# Calculate validate MAE for each fold
+cv_eval_rf <- cv_prep_rf %>% 
+  mutate(validate_mae = map2_dbl(validate_actual, validate_predicted, ~mae(actual = .x, predicted = .y)))
+
+# Print the validate_mae column
+cv_eval_rf$validate_mae
+
+# Calculate the mean of validate_mae column
+mean(cv_eval_rf$validate_mae)
