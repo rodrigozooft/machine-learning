@@ -235,3 +235,13 @@ cv_eval_rf$validate_mae
 
 # Calculate the mean of validate_mae column
 mean(cv_eval_rf$validate_mae)
+
+# Prepare for tuning your cross validation folds by varying mtry
+cv_tune <- cv_data %>% 
+  crossing(mtry = 2:5) 
+
+# Build a model for each fold & mtry combination
+cv_model_tunerf <- cv_tune %>% 
+  mutate(model = map2(.x = train, .y = mtry, ~ranger(formula = life_expectancy~., 
+                                           data = .x, mtry = .y, 
+                                           num.trees = 100, seed = 42)))
