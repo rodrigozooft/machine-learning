@@ -325,3 +325,11 @@ precision(validate_actual, validate_predicted)
 
 # Calculate the recall
 recall(validate_actual, validate_predicted)
+
+cv_prep_lr <- cv_models_lr %>% 
+  mutate(
+    # Prepare binary vector of actual Attrition values in validate
+    validate_actual = map(validate, ~.x$Attrition == "Yes"),
+    # Prepare binary vector of predicted Attrition values for validate
+    validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y, type = "response") > 0.5)
+  )
