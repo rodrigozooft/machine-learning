@@ -294,3 +294,8 @@ cv_data <- cv_split %>%
     validate = map(splits, ~testing(.x))
   )
 
+# Build a model using the train data for each fold of the cross validation
+cv_models_lr <- cv_data %>% 
+  mutate(model = map(train, ~glm(formula = Attrition ~ ., 
+                               data = .x, family = "binomial")))
+
