@@ -311,3 +311,17 @@ validate_prob <- predict(model, validate, type = "response")
 
 # Prepare binary vector of predicted Attrition values for validate
 validate_predicted <- validate_prob > 0.5
+
+library(Metrics)
+
+# Compare the actual & predicted performance visually using a table
+table(validate_actual, validate_predicted)
+
+# Calculate the accuracy
+accuracy(validate_actual, validate_predicted)
+
+# Calculate the precision
+precision(validate_actual, validate_predicted)
+
+# Calculate the recall
+recall(validate_actual, validate_predicted)
