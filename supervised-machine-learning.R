@@ -299,3 +299,15 @@ cv_models_lr <- cv_data %>%
   mutate(model = map(train, ~glm(formula = Attrition ~ ., 
                                data = .x, family = "binomial")))
 
+# Extract the first model and validate 
+model <- cv_models_lr$model[[1]]
+validate <- cv_models_lr$validate[[1]]
+
+# Prepare binary vector of actual Attrition values in validate
+validate_actual <- validate$Attrition == "Yes"
+
+# Predict the probabilities for the observations in validate
+validate_prob <- predict(model, validate, type = "response")
+
+# Prepare binary vector of predicted Attrition values for validate
+validate_predicted <- validate_prob > 0.5
