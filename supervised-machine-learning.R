@@ -271,3 +271,26 @@ test_predicted <- predict(best_model, testing_data)$predictions
 
 # Calculate the test MAE
 mae(test_actual, test_predicted)
+
+set.seed(42)
+
+# Prepare the initial split object
+data_split <- initial_split(attrition, prop = 0.75)
+
+# Extract the training data frame
+training_data <- training(data_split)
+
+# Extract the testing data frame
+testing_data <- testing(data_split)
+
+set.seed(42)
+cv_split <- vfold_cv(training_data, v = 5)
+
+cv_data <- cv_split %>% 
+  mutate(
+    # Extract the train data frame for each split
+    train = map(splits, ~training(.x)),
+    # Extract the validate data frame for each split
+    validate = map(splits, ~testing(.x))
+  )
+
