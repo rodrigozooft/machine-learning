@@ -413,3 +413,10 @@ home_test <- home_split %>%
 # Check number of rows in each dataset
 nrow(home_training)
 nrow(home_test)
+
+# Distribution of selling_price in test data
+home_test %>% 
+  summarize(min_sell_price = min(selling_price),
+            max_sell_price = max(selling_price),
+            mean_sell_price = mean(selling_price),
+            sd_sell_price = sd(selling_price))
