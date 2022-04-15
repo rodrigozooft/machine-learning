@@ -333,3 +333,14 @@ cv_prep_lr <- cv_models_lr %>%
     # Prepare binary vector of predicted Attrition values for validate
     validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y, type = "response") > 0.5)
   )
+
+# Calculate the validate recall for each cross validation fold
+cv_perf_recall <- cv_prep_lr %>% 
+  mutate(validate_recall = map2_dbl(validate_actual, validate_predicted, 
+                                    ~recall(actual = .x, predicted = .y)))
+
+# Print the validate_recall column
+cv_perf_recall$validate_recall
+
+# Calculate the average of the validate_recall column
+mean(cv_perf_recall$validate_recall)
