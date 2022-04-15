@@ -396,3 +396,20 @@ precision(test_actual, test_predicted)
 
 # Calculate the test recall
 recall(test_actual, test_predicted)
+
+# Create a data split object
+home_split <- initial_split(home_sales, 
+                            prop = 0.7, 
+                            strata = selling_price)
+
+# Create the training data
+home_training <- home_split %>%
+  training()
+
+# Create the test data
+home_test <- home_split %>% 
+  testing()
+
+# Check number of rows in each dataset
+nrow(home_training)
+nrow(home_test)
