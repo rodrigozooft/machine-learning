@@ -356,3 +356,20 @@ cv_models_rf <- cv_tune %>%
   mutate(model = map2(train, mtry, ~ranger(formula = Attrition~., 
                                            data = .x, mtry = .y,
                                            num.trees = 100, seed = 42)))
+
+cv_prep_rf <- cv_models_rf %>% 
+  mutate(
+    # Prepare binary vector of actual Attrition values in validate
+    validate_actual = map(validate, ~.x$Attrition == "Yes"),
+    # Prepare binary vector of predicted Attrition values for validate
+    validate_predicted = map2(.x = model, .y = validate, ~predict(.x, .y, type = "response")$predictions == "Yes")
+  )
+
+# Calculate the validate recall for each cross validation fold
+cv_perf_recall <- cv_prep_rf %>% 
+  mutate(recall = map2_dbl(.x = validate_actual, .y = validate_predicted, ~recall(actual = .x, predicted = .y)))
+
+# Calculate the mean recall for each mtry used  
+cv_perf_recall %>% 
+  group_by(mtry) %>% 
+  summarise(mean_recall = mean(recall))
