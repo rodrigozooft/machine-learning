@@ -344,3 +344,15 @@ cv_perf_recall$validate_recall
 
 # Calculate the average of the validate_recall column
 mean(cv_perf_recall$validate_recall)
+
+library(ranger)
+
+# Prepare for tuning your cross validation folds by varying mtry
+cv_tune <- cv_data %>%
+  crossing(mtry = c(2,4,8,16)) 
+
+# Build a cross validation model for each fold & mtry combination
+cv_models_rf <- cv_tune %>% 
+  mutate(model = map2(train, mtry, ~ranger(formula = Attrition~., 
+                                           data = .x, mtry = .y,
+                                           num.trees = 100, seed = 42)))
