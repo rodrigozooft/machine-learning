@@ -373,3 +373,14 @@ cv_perf_recall <- cv_prep_rf %>%
 cv_perf_recall %>% 
   group_by(mtry) %>% 
   summarise(mean_recall = mean(recall))
+
+# Build the logistic regression model using all training data
+best_model <- glm(formula = Attrition ~ ., 
+                  data = training_data, family = "binomial")
+
+
+# Prepare binary vector of actual Attrition values for testing_data
+test_actual <- testing_data$Attrition == "Yes"
+
+# Prepare binary vector of predicted Attrition values for testing_data
+test_predicted <- predict(best_model, testing_data, type = "response") > 0.5
