@@ -451,3 +451,13 @@ home_test_results <- home_test %>%
 # View results
 home_test_results
 
+# Print home_test_results
+home_test_results
+
+# Caculate the RMSE metric
+home_test_results %>% 
+  rmse(selling_price, .pred)
+
+# Calculate the R squared metric
+home_test_results %>% 
+  rsq(selling_price, .pred)
