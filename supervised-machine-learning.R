@@ -420,3 +420,19 @@ home_test %>%
             max_sell_price = max(selling_price),
             mean_sell_price = mean(selling_price),
             sd_sell_price = sd(selling_price))
+
+# Specify a linear regression model, linear_model
+linear_model <- linear_reg() %>% 
+  # Set the model engine
+  set_engine('lm') %>% 
+  # Set the model mode
+  set_mode('regression')
+
+# Train the model with the training data
+lm_fit <- linear_model %>% 
+  fit(selling_price ~ home_age + sqft_living,
+      data = home_training)
+
+# Print lm_fit to view model information
+lm_fit
+
