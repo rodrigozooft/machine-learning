@@ -468,3 +468,23 @@ ggplot(home_test_results, aes(x = selling_price, y = .pred)) +
   geom_abline(color = 'blue', linetype = 2) +
   coord_obs_pred() +
   labs(x = 'Actual Home Selling Price', y = 'Predicted Selling Price')
+
+# Define a linear regression model
+linear_model <- linear_reg() %>% 
+  set_engine('lm') %>% 
+  set_mode('regression')
+
+# Train linear_model with last_fit()
+linear_fit <- linear_model %>% 
+  last_fit(selling_price ~ ., split = home_split)
+
+# Collect predictions and view results
+predictions_df <- linear_fit %>% collect_predictions()
+predictions_df
+                                        
+# Make an R squared plot using predictions_df
+ggplot(predictions_df, aes(x = selling_price, y = .pred)) + 
+  geom_point(alpha = 0.5) + 
+  geom_abline(color = 'blue', linetype = 2) +
+  coord_obs_pred() +
+  labs(x = 'Actual Home Selling Price', y = 'Predicted Selling Price')
