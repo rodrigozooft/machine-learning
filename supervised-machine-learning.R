@@ -436,3 +436,18 @@ lm_fit <- linear_model %>%
 # Print lm_fit to view model information
 lm_fit
 
+# Predict selling_price
+home_predictions <- predict(lm_fit,
+                        new_data = home_test)
+
+# View predicted selling prices
+home_predictions
+
+# Combine test data with predictions
+home_test_results <- home_test %>% 
+  select(selling_price, home_age, sqft_living) %>% 
+  bind_cols(home_predictions)
+
+# View results
+home_test_results
+
