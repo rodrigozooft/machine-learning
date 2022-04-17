@@ -504,3 +504,18 @@ telecom_test <- telecom_split %>%
 # Check the number of rows
 nrow(telecom_training)
 nrow(telecom_test)
+
+# Specify a logistic regression model
+logistic_model <- logistic_reg() %>% 
+  # Set the engine
+  set_engine('glm') %>% 
+  # Set the mode
+  set_mode('classification')
+
+# Fit to training data
+logistic_fit <- logistic_model %>% 
+  fit(canceled_service ~ avg_call_mins + avg_intl_mins + monthly_charges,
+      data = telecom_training)
+
+# Print model fit object
+logistic_fit
