@@ -461,3 +461,10 @@ home_test_results %>%
 # Calculate the R squared metric
 home_test_results %>% 
   rsq(selling_price, .pred)
+
+# Create an R squared plot of model performance
+ggplot(home_test_results, aes(x = selling_price, y = .pred)) +
+  geom_point(alpha = 0.5) + 
+  geom_abline(color = 'blue', linetype = 2) +
+  coord_obs_pred() +
+  labs(x = 'Actual Home Selling Price', y = 'Predicted Selling Price')
