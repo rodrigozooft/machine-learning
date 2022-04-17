@@ -488,3 +488,19 @@ ggplot(predictions_df, aes(x = selling_price, y = .pred)) +
   geom_abline(color = 'blue', linetype = 2) +
   coord_obs_pred() +
   labs(x = 'Actual Home Selling Price', y = 'Predicted Selling Price')
+
+# Create data split object
+telecom_split <- initial_split(telecom_df, prop = 0.75,
+                     strata = canceled_service)
+
+# Create the training data
+telecom_training <- telecom_split %>% 
+  training()
+
+# Create the test data
+telecom_test <- telecom_split %>% 
+  testing()
+
+# Check the number of rows
+nrow(telecom_training)
+nrow(telecom_test)
