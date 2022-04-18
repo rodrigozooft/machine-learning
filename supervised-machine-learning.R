@@ -549,3 +549,10 @@ conf_mat(telecom_results,
          estimate = .pred_class) %>% 
   # Pass to the summary() function
   summary()
+
+  # Create a confusion matrix
+conf_mat(telecom_results,
+         truth = canceled_service,
+         estimate = .pred_class) %>% 
+  # Create a mosaic plot
+  autoplot(type = 'mosaic')
