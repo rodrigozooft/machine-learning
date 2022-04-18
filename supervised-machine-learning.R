@@ -535,3 +535,17 @@ telecom_results <- telecom_test %>%
 
 # View results tibble
 telecom_results
+
+# Create a custom metric function
+telecom_metrics <- metric_set(accuracy, sens, spec)
+
+# Calculate metrics using model results tibble
+telecom_metrics(telecom_results, truth = canceled_service,
+                estimate = .pred_class)
+
+# Create a confusion matrix
+conf_mat(telecom_results,
+         truth = canceled_service,
+         estimate = .pred_class) %>% 
+  # Pass to the summary() function
+  summary()
