@@ -624,3 +624,11 @@ telecom_log_rec <- recipe(canceled_service ~ .,
 # View variable roles and data types
 telecom_log_rec %>%
   summary()
+
+# Train the telecom_log_rec object
+telecom_log_rec_prep <- telecom_log_rec %>% 
+  prep(training = telecom_training)
+
+# Apply to test data
+telecom_log_rec_prep %>% 
+  bake(new_data = telecom_test)
