@@ -615,3 +615,12 @@ logistic_fit %>%
   roc_curve(truth = canceled_service, .pred_yes) %>% 
   autoplot()
 
+# Specify feature engineering recipe
+telecom_log_rec <- recipe(canceled_service ~ ., 
+                          data = telecom_training) %>%
+  # Add log transformation step
+  step_log(avg_call_mins, avg_intl_mins, base = 10)
+
+# View variable roles and data types
+telecom_log_rec %>%
+  summary()
