@@ -598,3 +598,20 @@ last_fit_metrics(last_fit_results,
                  truth = canceled_service,
                  estimate = .pred_class,
                  .pred_yes)
+
+# Train a logistic regression model
+logistic_fit <- logistic_model %>% 
+  last_fit(canceled_service ~ avg_call_mins + avg_intl_mins + monthly_charges + months_with_company, 
+           split = telecom_split)
+
+# Collect metrics
+logistic_fit %>% 
+  collect_metrics()
+
+# Collect model predictions
+logistic_fit %>% 
+  collect_predictions() %>% 
+  # Plot ROC curve
+  roc_curve(truth = canceled_service, .pred_yes) %>% 
+  autoplot()
+
