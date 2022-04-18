@@ -556,3 +556,19 @@ conf_mat(telecom_results,
          estimate = .pred_class) %>% 
   # Create a mosaic plot
   autoplot(type = 'mosaic')
+
+# Calculate metrics across thresholds
+threshold_df <- telecom_results %>% 
+  roc_curve(truth = canceled_service, .pred_yes)
+
+# View results
+threshold_df
+
+# Plot ROC curve
+threshold_df %>% 
+  autoplot()
+
+# Calculate ROC AUC
+roc_auc(telecom_results,
+    truth = canceled_service, 
+    .pred_yes)
