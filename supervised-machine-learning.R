@@ -519,3 +519,19 @@ logistic_fit <- logistic_model %>%
 
 # Print model fit object
 logistic_fit
+
+# Predict outcome categories
+class_preds <- predict(logistic_fit, new_data = telecom_test,
+                       type = 'class')
+
+# Obtain estimated probabilities for each outcome value
+prob_preds <- predict(logistic_fit, new_data = telecom_test, 
+                      type = 'prob')
+
+# Combine test set results
+telecom_results <- telecom_test %>% 
+  select(canceled_service) %>% 
+  bind_cols(class_preds, prob_preds)
+
+# View results tibble
+telecom_results
