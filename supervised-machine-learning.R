@@ -581,3 +581,20 @@ telecom_last_fit <- logistic_model %>%
 # View test set metrics
 telecom_last_fit %>% 
   collect_metrics()
+
+# Collect predictions
+last_fit_results <- telecom_last_fit %>% 
+  collect_predictions()
+
+# View results
+last_fit_results
+
+# Custom metrics function
+last_fit_metrics <- metric_set(accuracy, sens,
+                               spec, roc_auc)
+
+# Calculate metrics
+last_fit_metrics(last_fit_results,
+                 truth = canceled_service,
+                 estimate = .pred_class,
+                 .pred_yes)
