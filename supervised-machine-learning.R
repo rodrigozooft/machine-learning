@@ -572,3 +572,12 @@ threshold_df %>%
 roc_auc(telecom_results,
     truth = canceled_service, 
     .pred_yes)
+
+# Train model with last_fit()
+telecom_last_fit <- logistic_model %>% 
+  last_fit(canceled_service ~ avg_call_mins + avg_intl_mins + monthly_charges,
+           split = telecom_split)
+
+# View test set metrics
+telecom_last_fit %>% 
+  collect_metrics()
