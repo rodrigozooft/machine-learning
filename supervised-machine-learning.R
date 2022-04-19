@@ -646,3 +646,21 @@ ggplot(telecom_training, aes(x = avg_data_gb, y = monthly_charges)) +
   # Add title
   labs(title = 'Monthly Charges vs. Average Data Usage',
        y = 'Monthly Charges ($)', x = 'Average Data Usage (GB)') 
+
+# Specify a recipe object
+telecom_cor_rec <- recipe(canceled_service ~ .,
+                          data = telecom_training) %>% 
+  # Remove correlated variables
+  step_corr(all_numeric(), threshold = 0.8)
+
+# Train the recipe
+telecom_cor_rec_prep <- telecom_cor_rec %>% 
+  prep(training = telecom_training)
+
+# Apply to training data
+telecom_cor_rec_prep %>% 
+  bake(new_data = NULL)
+
+# Apply to test data
+telecom_cor_rec_prep %>% 
+  bake(new_data = telecom_test)
