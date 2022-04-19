@@ -690,3 +690,17 @@ telecom_recipe_2 <-
 telecom_recipe_2 %>% 
   prep(telecom_training) %>% 
   bake(new_data = telecom_test)
+
+# Create a recipe that predicts canceled_service using the training data
+telecom_recipe <- recipe(canceled_service ~ ., data = telecom_training) %>% 
+  # Remove correlated predictors
+  step_corr(all_numeric(), threshold = 0.8) %>% 
+  # Normalize numeric predictors
+  step_normalize(all_numeric()) %>% 
+  # Create dummy variables
+  step_dummy(all_nominal(), -all_outcomes())
+
+# Train your recipe and apply it to the test data
+telecom_recipe %>% 
+  prep(training = telecom_training) %>% 
+  bake(new_data = telecom_test)
