@@ -664,3 +664,19 @@ telecom_cor_rec_prep %>%
 # Apply to test data
 telecom_cor_rec_prep %>% 
   bake(new_data = telecom_test)
+
+# Specify a recipe object
+telecom_norm_rec <- recipe(canceled_service ~ .,
+                          data = telecom_training) %>% 
+  # Remove correlated variables
+  step_corr(all_numeric(), threshold = 0.8) %>% 
+  # Normalize numeric predictors
+  step_normalize(all_numeric())
+
+# Train the recipe
+telecom_norm_rec_prep <- telecom_norm_rec %>% 
+  prep(training = telecom_training)
+
+# Apply to test data
+telecom_norm_rec_prep %>% 
+  bake(new_data = telecom_test)
