@@ -704,3 +704,27 @@ telecom_recipe <- recipe(canceled_service ~ ., data = telecom_training) %>%
 telecom_recipe %>% 
   prep(training = telecom_training) %>% 
   bake(new_data = telecom_test)
+
+telecom_recipe <- recipe(canceled_service ~ ., data = telecom_training) %>% 
+  # Removed correlated predictors
+  step_corr(all_numeric(), threshold = 0.8) %>% 
+  # Log transform numeric predictors
+  step_log(all_numeric(), base = 10) %>%
+  # Normalize numeric predictors
+  step_normalize(all_numeric()) %>% 
+  # Create dummy variables
+  step_dummy(all_nominal(), -all_outcomes())
+
+# Train recipe
+telecom_recipe_prep <- telecom_recipe %>% 
+  prep(training = telecom_training)
+
+# Transform training data
+telecom_training_prep <- telecom_recipe_prep %>% 
+  bake(new_data = NULL)
+
+# Transform test data
+telecom_test_prep <- telecom_recipe_prep %>% 
+  bake(new_data = telecom_test)
+
+telecom_test_prep
