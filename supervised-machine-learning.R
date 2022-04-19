@@ -746,3 +746,20 @@ telecom_results <- telecom_test_prep %>%
   bind_cols(class_preds, prob_preds)
 
 telecom_results
+
+# Create a confusion matrix
+telecom_results %>% 
+  conf_mat(truth = canceled_service, estimate = .pred_class)
+
+# Calculate sensitivity
+telecom_results %>% 
+  sens(truth = canceled_service, estimate = .pred_class)
+
+# Calculate specificity
+telecom_results %>% 
+  spec(truth = canceled_service, estimate = .pred_class)
+
+# Plot ROC curve
+telecom_results %>% 
+  roc_curve(truth = canceled_service, .pred_yes) %>% 
+  autoplot()
