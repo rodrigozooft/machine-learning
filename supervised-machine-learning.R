@@ -632,3 +632,17 @@ telecom_log_rec_prep <- telecom_log_rec %>%
 # Apply to test data
 telecom_log_rec_prep %>% 
   bake(new_data = telecom_test)
+
+telecom_training %>% 
+  # Select numeric columns
+  select_if(is.numeric) %>% 
+  # Calculate correlation matrix
+  cor()
+
+# Plot correlated predictors
+ggplot(telecom_training, aes(x = avg_data_gb, y = monthly_charges)) + 
+  # Add points
+  geom_point()  + 
+  # Add title
+  labs(title = 'Monthly Charges vs. Average Data Usage',
+       y = 'Monthly Charges ($)', x = 'Average Data Usage (GB)') 
