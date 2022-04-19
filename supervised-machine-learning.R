@@ -782,3 +782,22 @@ loans_training %>%
   select_if(is.numeric) %>%
   # Calculate correlation matrix
   cor()
+
+dt_model <- decision_tree() %>% 
+  # Specify the engine
+  set_engine('rpart') %>% 
+  # Specify the mode
+  set_mode('classification')
+
+# Build feature engineering pipeline
+loans_recipe <- recipe(loan_default ~ .,
+                        data = loans_training) %>% 
+  # Correlation filter
+  step_corr(all_numeric, threshold = 0.85) %>% 
+  # Normalize numeric predictors
+  step_normalize(all_numeric, all_predictors) %>% 
+  # Create dummy variables
+  step_dummy(all_nominal, -all_outcomes)
+
+loans_recipe
+
