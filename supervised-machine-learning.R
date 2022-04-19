@@ -763,3 +763,22 @@ telecom_results %>%
 telecom_results %>% 
   roc_curve(truth = canceled_service, .pred_yes) %>% 
   autoplot()
+
+# Create data split object
+loans_split <- initial_split(loans_df, 
+                             strata = loan_default)
+
+# Build training data
+loans_training <- loans_split %>% 
+  training()
+
+# Build test data
+loans_test <- loans_split %>% 
+  testing()
+
+# Check for correlated predictors
+loans_training %>% 
+  # Select numeric columns
+  select_if(is.numeric) %>%
+  # Calculate correlation matrix
+  cor()
