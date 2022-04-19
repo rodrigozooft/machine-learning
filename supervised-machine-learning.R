@@ -801,3 +801,17 @@ loans_recipe <- recipe(loan_default ~ .,
 
 loans_recipe
 
+# Create a workflow
+loans_dt_wkfl <- workflow() %>% 
+  # Include the model object
+  add_model(dt_model) %>% 
+  # Include the recipe object
+  add_recipe(loans_recipe)
+
+# Train the workflow
+loans_dt_wkfl_fit <- loans_dt_wkfl %>% 
+  last_fit(split = loans_split)
+
+# Calculate performance metrics on test data
+loans_dt_wkfl_fit %>% 
+  collect_metrics()
