@@ -680,3 +680,13 @@ telecom_norm_rec_prep <- telecom_norm_rec %>%
 # Apply to test data
 telecom_norm_rec_prep %>% 
   bake(new_data = telecom_test)
+
+telecom_recipe_2 <- 
+  recipe(canceled_service ~ avg_data_gb + contract, data = telecom_training)  %>% 
+  step_dummy(all_nominal(), -all_outcomes()) %>% 
+  step_normalize(all_numeric(), -all_outcomes())
+
+# Train and apply telecom_recipe_2 on the test data
+telecom_recipe_2 %>% 
+  prep(telecom_training) %>% 
+  bake(new_data = telecom_test)
