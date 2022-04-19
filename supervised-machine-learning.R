@@ -728,3 +728,21 @@ telecom_test_prep <- telecom_recipe_prep %>%
   bake(new_data = telecom_test)
 
 telecom_test_prep
+
+# Train logistic model
+logistic_fit <- logistic_model %>% 
+  fit(canceled_service ~ ., data = telecom_training_prep)
+
+# Obtain class predictions
+class_preds <- predict(logistic_fit, new_data = telecom_test_prep,
+                       type = 'class')
+
+# Obtain estimated probabilities
+prob_preds <- predict(logistic_fit, new_data = telecom_test_prep, 
+                      type = 'prob')
+
+# Combine test set results
+telecom_results <- telecom_test_prep %>% 
+  bind_cols(class_preds, prob_preds)
+
+telecom_results
