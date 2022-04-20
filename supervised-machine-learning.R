@@ -909,3 +909,17 @@ dt_tuning_results %>%
             median_roc_auc = median(.estimate),
             max_roc_auc = max(.estimate))
 
+# Display 5 best performing models
+dt_tuning %>% 
+  show_best(metric = 'roc_auc', n = 5)
+
+# Select based on best performance
+best_dt_model <- dt_tuning %>% 
+  # Choose the best model based on roc_auc
+  select_best(metric = 'roc_auc')
+
+# Finalize your workflow
+final_loans_wkfl <- loans_tune_wkfl %>% 
+  finalize_workflow(best_dt_model)
+
+final_loans_wkfl
