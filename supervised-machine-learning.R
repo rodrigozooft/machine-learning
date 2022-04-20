@@ -854,3 +854,14 @@ loans_logistic_rs <- loans_logistic_wkfl %>%
 # View performance metrics
 loans_logistic_rs %>% 
   collect_metrics()
+
+# Detailed cross validation results
+logistic_rs_results <- loans_logistic_rs %>% 
+  collect_metrics(summarize = FALSE)
+
+# Explore model performance for logistic regression
+logistic_rs_results %>% 
+  group_by(.metric) %>% 
+  summarize(min = min(.estimate),
+            median = median(.estimate),
+            max = max(.estimate))
