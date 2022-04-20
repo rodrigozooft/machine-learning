@@ -833,3 +833,24 @@ loans_dt_rs <- loans_dt_wkfl %>%
 loans_dt_rs %>% 
   collect_metrics()
 
+logistic_model <- logistic_reg() %>% 
+  # Specify the engine
+  set_engine('glm') %>% 
+  # Specify the mode
+  set_mode('classification')
+
+# Create workflow
+loans_logistic_wkfl <- workflow() %>% 
+  # Add model
+  add_model(logistic_model) %>% 
+  # Add recipe
+  add_recipe(loans_recipe)
+
+# Fit resamples
+loans_logistic_rs <- loans_logistic_wkfl %>% 
+  fit_resamples(resamples = loans_folds,
+                metrics = loans_metrics)
+
+# View performance metrics
+loans_logistic_rs %>% 
+  collect_metrics()
