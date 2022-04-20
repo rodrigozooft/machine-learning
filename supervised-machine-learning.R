@@ -896,3 +896,16 @@ dt_tuning <- loans_tune_wkfl %>%
 # View results
 dt_tuning %>% 
   collect_metrics
+
+# Collect detailed tuning results
+dt_tuning_results <- dt_tuning %>% 
+  collect_metrics(summarize = FALSE)
+
+# Explore detailed ROC AUC results for each fold
+dt_tuning_results %>% 
+  filter(.metric == 'roc_auc') %>% 
+  group_by(id) %>% 
+  summarize(min_roc_auc = min(.estimate),
+            median_roc_auc = median(.estimate),
+            max_roc_auc = max(.estimate))
+
