@@ -815,3 +815,21 @@ loans_dt_wkfl_fit <- loans_dt_wkfl %>%
 # Calculate performance metrics on test data
 loans_dt_wkfl_fit %>% 
   collect_metrics()
+
+# Create cross validation folds
+set.seed(290)
+loans_folds <- vfold_cv(loans_training, v = 5,
+                       strata = loan_default)
+
+# Create custom metrics function
+loans_metrics <- metric_set(roc_auc, sens, spec)
+
+# Fit resamples
+loans_dt_rs <- loans_dt_wkfl %>% 
+  fit_resamples(resamples = loans_folds,
+                metrics = loans_metrics)
+
+# View performance metrics
+loans_dt_rs %>% 
+  collect_metrics()
+
