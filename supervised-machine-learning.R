@@ -881,3 +881,18 @@ loans_tune_wkfl <- loans_dt_wkfl %>%
   update_model(dt_tune_model)
 
 loans_tune_wkfl
+
+# Hyperparameter tuning with grid search
+set.seed(214)
+dt_grid <- grid_random(parameters(dt_tune_model),
+                       size = 5)
+
+# Hyperparameter tuning
+dt_tuning <- loans_tune_wkfl %>% 
+  tune_grid(resamples = loans_folds,
+            grid = dt_grid,
+            metrics = loans_metrics)
+
+# View results
+dt_tuning %>% 
+  collect_metrics
