@@ -923,3 +923,20 @@ final_loans_wkfl <- loans_tune_wkfl %>%
   finalize_workflow(best_dt_model)
 
 final_loans_wkfl
+
+# Train finalized decision tree workflow
+loans_final_fit <- final_loans_wkfl %>% 
+  last_fit(split = loans_split)
+
+# View performance metrics
+loans_final_fit %>% 
+  collect_metrics()
+
+# Create an ROC curve
+loans_final_fit %>% 
+  # Collect predictions
+  collect_predictions() %>%
+  # Calculate ROC curve metrics
+  roc_curve(truth = loan_default, .pred_yes) %>%
+  # Plot the ROC curve
+  autoplot()
