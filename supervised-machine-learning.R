@@ -865,3 +865,19 @@ logistic_rs_results %>%
   summarize(min = min(.estimate),
             median = median(.estimate),
             max = max(.estimate))
+
+# Set tuning hyperparameters
+dt_tune_model <- decision_tree(cost_complexity = tune(),
+                               tree_depth = tune(),
+                               min_n = tune()) %>% 
+  # Specify engine
+  set_engine('rpart') %>% 
+  # Specify mode
+  set_mode('classification')
+
+# Create a tuning workflow
+loans_tune_wkfl <- loans_dt_wkfl %>% 
+  # Replace model
+  update_model(dt_tune_model)
+
+loans_tune_wkfl
