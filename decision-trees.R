@@ -10,3 +10,16 @@ tree_spec <- decision_tree() %>%
 
 # Print the result
 tree_spec
+
+# Create the specification
+tree_spec <- decision_tree() %>% 
+  set_engine ("rpart") %>% 
+  set_mode('classification')
+
+# Train the model
+tree_model_bmi <- tree_spec %>% 
+  fit(formula = outcome ~ bmi, data = diabetes)
+
+# Print the model
+tree_model_bmi
+
