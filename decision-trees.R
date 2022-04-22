@@ -64,3 +64,18 @@ model_trained <- tree_spec %>%
       data = training(diabetes_split))
 
 model_trained
+
+# Train your model
+model <- tree_spec %>% 
+  fit(outcome ~., data = diabetes_train)
+
+# Generate predictions
+predictions <- predict(model,
+                   diabetes_test)
+
+# Add the true outcomes
+predictions_combined <- predictions %>% 
+  mutate(true_class = diabetes_test$outcome)
+
+# Print the first lines of the result
+head(predictions_combined)
