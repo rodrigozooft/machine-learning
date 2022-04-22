@@ -47,3 +47,20 @@ prop_yes_test <- counts_test["yes"] / sum(counts_test)
 
 paste("Proportion of positive outcomes in training set:", round(prop_yes_train, 2))
 paste("Proportion of positive outcomes in test set:", round(prop_yes_test, 2))
+
+set.seed(9)
+
+# Create the balanced data split
+diabetes_split <- initial_split(diabetes, prop = 0.75, strata = outcome)
+
+# Build the specification of the model
+tree_spec <- decision_tree() %>% 
+  set_engine('rpart') %>% 
+  set_mode('classification')
+
+# Train the model
+model_trained <- tree_spec %>% 
+  fit(outcome ~ bmi + skin_thickness, 
+      data = training(diabetes_split))
+
+model_trained
