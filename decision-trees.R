@@ -33,3 +33,17 @@ diabetes_test  <- testing(diabetes_split)
 # Verify the proportions of both sets
 round(nrow(diabetes_train) / nrow(diabetes), 2) == 0.80
 round(nrow(diabetes_test) / nrow(diabetes), 2) == 0.20
+
+# Create a split with a constant outcome distribution
+diabetes_split <- initial_split(diabetes, prop = 0.75, strata = outcome)
+
+# Proportion of 'yes' outcomes in the training data
+counts_train <- table(training(diabetes_split)$outcome)
+prop_yes_train <- counts_train["yes"] / sum(counts_train)
+
+# Proportion of 'yes' outcomes in the test data
+counts_test <- table(testing(diabetes_split)$outcome)
+prop_yes_test <- counts_test["yes"] / sum(counts_test)
+
+paste("Proportion of positive outcomes in training set:", round(prop_yes_train, 2))
+paste("Proportion of positive outcomes in test set:", round(prop_yes_test, 2))
