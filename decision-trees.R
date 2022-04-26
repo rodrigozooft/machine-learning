@@ -211,3 +211,17 @@ predict(complex_model, new_data = chocolate_test) %>%
 	bind_cols(chocolate_test) %>% 
 	mae(estimate = .pred,
         truth = final_grade)
+
+# Create a specification with tuning placeholders
+tune_spec <- decision_tree(tree_depth = tune(),
+                           cost_complexity = tune()) %>% 
+  # Specify mode
+  set_mode("classification") %>%
+  # Specify engine
+  set_engine("rpart") 
+
+# Create a regular grid
+tree_grid <- grid_regular(parameters(tune_spec),
+                 levels = 2)
+
+tree_grid
