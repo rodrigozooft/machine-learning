@@ -280,3 +280,10 @@ roc <- roc_curve(predictions,
 
 # Plot the ROC curve
 autoplot(roc)
+
+# Calculate area under the curve
+auc_result <- roc_auc(predictions, 
+                  estimate = .pred_yes, 
+                  truth = still_customer)
+
+print(paste("The area under the ROC curve is", round(auc_result$.estimate, 3)))
