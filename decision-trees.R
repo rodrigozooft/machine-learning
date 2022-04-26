@@ -149,3 +149,18 @@ test_enriched <- predict(model, new_data = chocolate_test) %>%
 mae(test_enriched,
     estimate = .pred,
     truth = final_grade)
+
+# Calculate the squared differences
+squared_diffs <- (test_enriched$final_grade - test_enriched$.pred)^2
+
+# Compute the RMSE using the formula
+rmse_manual <- sqrt(1 / nrow(test_enriched) * sum(squared_diffs))
+
+# Compute the RMSE using a function
+rmse_auto <- rmse(test_enriched,
+                 estimate = .pred,
+                 truth = final_grade)
+
+# Print both errors
+rmse_manual
+rmse_auto
