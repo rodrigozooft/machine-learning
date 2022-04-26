@@ -197,3 +197,11 @@ ggplot(all_errors, aes(x = .estimate, fill = .metric)) +
 
 # Collect and print error statistics
 collect_metrics(fits_cv, summarize = TRUE)
+
+# Create a model that can grow arbitrarily complex
+chocolate_model <- decision_tree(cost_complexity = 0,
+			  					 min_n = 2) %>%
+		set_mode("regression") %>%
+		set_engine("rpart") %>% 
+		fit(final_grade ~ ., data = chocolate_train)
+chocolate_model
