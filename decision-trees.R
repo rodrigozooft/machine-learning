@@ -104,3 +104,17 @@ acc_auto <- accuracy(predictions_combined,
                 truth = true_class)
 
 acc_auto$.estimate
+
+library(tidymodels)
+
+# Build the specification
+model_spec <- decision_tree() %>%
+  set_mode('regression') %>%
+  set_engine('rpart')
+
+# Fit to the data
+model_fit <- model_spec %>%
+  fit(formula = final_grade ~ cocoa_percent + review_date,
+      data = chocolate_train)
+
+model_fit
