@@ -130,3 +130,13 @@ predictions <- predict(chocolate_model,
   bind_cols(chocolate_test)
 
 predictions
+
+# Predict using the training set
+in_sample_predictions <- predict(model,
+                                 chocolate_train)
+
+# Calculate the vector of absolute differences
+abs_diffs <- abs(chocolate_train$final_grade - in_sample_predictions$.pred)
+
+# Calculate the mean absolute error
+1 / nrow(chocolate_train) * sum(abs_diffs)
