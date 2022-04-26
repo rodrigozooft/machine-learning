@@ -265,3 +265,18 @@ specificities <- fit_resamples(tree_spec,
 
 # Collect the metrics
 collect_metrics(specificities)
+
+# Predict probabilities on test set
+predictions <- predict(model, 
+                       customers_test, 
+                       type = "prob") %>% 
+  # Add test set
+  bind_cols(customers_test)
+
+# Calculate the ROC curve for all thresholds
+roc <- roc_curve(predictions,
+           estimate = .pred_yes, 
+           truth = still_customer)
+
+# Plot the ROC curve
+autoplot(roc)
