@@ -225,3 +225,18 @@ tree_grid <- grid_regular(parameters(tune_spec),
                  levels = 2)
 
 tree_grid
+
+set.seed(275)
+
+# Create CV folds of the customers tibble
+folds <- vfold_cv(customers, v = 3)
+
+# Tune along the grid
+tune_results <- tune_grid(tune_spec, 
+                          still_customer ~ .,
+                          resamples = folds,
+                          grid = tree_grid,
+                          metrics = metric_set(accuracy))
+
+# Plot the tuning results
+autoplot(tune_results) 
