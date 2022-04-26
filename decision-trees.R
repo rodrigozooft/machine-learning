@@ -287,3 +287,16 @@ auc_result <- roc_auc(predictions,
                   truth = still_customer)
 
 print(paste("The area under the ROC curve is", round(auc_result$.estimate, 3)))
+
+# Create the specification
+spec_bagged <- baguette::bag_tree() %>%
+  set_mode("classification") %>%
+  set_engine("rpart", times = 20)
+
+# Fit to the training data
+model_bagged <- fit(spec_bagged,
+                    still_customer ~ total_trans_amt + customer_age + education_level, 
+                    customers_train)
+
+# Print the model
+model_bagged
