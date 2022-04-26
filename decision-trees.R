@@ -79,3 +79,28 @@ predictions_combined <- predictions %>%
 
 # Print the first lines of the result
 head(predictions_combined)
+
+# The confusion matrix
+diabetes_matrix <- conf_mat(predictions_combined,
+                       estimate = .pred_class,
+                       truth = true_class)
+
+# Print the matrix
+diabetes_matrix
+
+# The number of correctly predicted classes
+correct_predictions <- 84 + 24
+
+# The number of all predicted classes
+all_predictions <- 84 + 24 + 28 + 17
+
+# The accuracy calculated by hand
+acc_manual <- correct_predictions / all_predictions
+acc_manual
+
+# The accuracy calculated by a function
+acc_auto <- accuracy(predictions_combined,
+                estimate = .pred_class, 
+                truth = true_class)
+
+acc_auto$.estimate
