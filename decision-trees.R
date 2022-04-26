@@ -185,3 +185,15 @@ fits_cv <- fit_resamples(tree_spec,
                metrics = metric_set(mae,rmse))
 
 fits_cv
+
+library(ggplot2)
+
+# Collect the errors
+all_errors <- collect_metrics(fits_cv, summarize = FALSE)
+
+# Plot an error histogram
+ggplot(all_errors, aes(x = .estimate, fill = .metric)) +
+        geom_histogram()
+
+# Collect and print error statistics
+collect_metrics(fits_cv, summarize = TRUE)
