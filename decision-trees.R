@@ -172,3 +172,16 @@ set.seed(20)
 chocolate_folds <- vfold_cv(chocolate_train, v = 10)
 
 chocolate_folds
+
+# Create a specification
+tree_spec <- decision_tree() %>%
+    set_engine('rpart') %>%
+    set_mode('regression')
+
+# Fit all folds to the specification
+fits_cv <- fit_resamples(tree_spec,
+               final_grade ~ .,
+               resamples = chocolate_folds,
+               metrics = metric_set(mae,rmse))
+
+fits_cv
