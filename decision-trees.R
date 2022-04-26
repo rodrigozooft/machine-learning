@@ -240,3 +240,28 @@ tune_results <- tune_grid(tune_spec,
 
 # Plot the tuning results
 autoplot(tune_results) 
+
+# Select the parameters that perform best
+final_params <- select_best(tune_results)
+
+# Finalize the specification
+best_spec <- finalize_model(tune_spec, final_params)
+
+# Build the final model
+final_model <- fit(best_spec,
+                   still_customer ~ .,
+                   data = customers)
+
+final_model
+
+# Create CV folds of the training data
+folds <- vfold_cv(customers_train, v = 3)
+
+# Calculate CV specificity
+specificities <- fit_resamples(tree_spec, 
+                     still_customer ~ .,
+                     resamples = folds,
+                     metrics = metric_set(spec))
+
+# Collect the metrics
+collect_metrics(specificities)
