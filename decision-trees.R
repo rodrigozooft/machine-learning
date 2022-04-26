@@ -140,3 +140,12 @@ abs_diffs <- abs(chocolate_train$final_grade - in_sample_predictions$.pred)
 
 # Calculate the mean absolute error
 1 / nrow(chocolate_train) * sum(abs_diffs)
+
+# Predict ratings on test set and add true grades
+test_enriched <- predict(model, new_data = chocolate_test) %>%
+    bind_cols(chocolate_test)
+    
+# Compute the mean absolute error using one single function
+mae(test_enriched,
+    estimate = .pred,
+    truth = final_grade)
