@@ -205,3 +205,9 @@ chocolate_model <- decision_tree(cost_complexity = 0,
 		set_engine("rpart") %>% 
 		fit(final_grade ~ ., data = chocolate_train)
 chocolate_model
+
+# Predict on and combine with test data and calculate the error
+predict(complex_model, new_data = chocolate_test) %>%
+	bind_cols(chocolate_test) %>% 
+	mae(estimate = .pred,
+        truth = final_grade)
