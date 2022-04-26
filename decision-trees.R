@@ -118,3 +118,15 @@ model_fit <- model_spec %>%
       data = chocolate_train)
 
 model_fit
+
+# Train the model
+chocolate_model <- model_spec %>%
+  fit(final_grade ~ ., data = chocolate_train)
+
+# Predict new data
+predictions <- predict(chocolate_model,
+                       chocolate_test) %>%
+  # Add the test set
+  bind_cols(chocolate_test)
+
+predictions
