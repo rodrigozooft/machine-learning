@@ -164,3 +164,11 @@ rmse_auto <- rmse(test_enriched,
 # Print both errors
 rmse_manual
 rmse_auto
+
+# Set seed for reproducibility
+set.seed(20)
+
+# Build 10 folds
+chocolate_folds <- vfold_cv(chocolate_train, v = 10)
+
+chocolate_folds
