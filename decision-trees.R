@@ -300,3 +300,20 @@ model_bagged <- fit(spec_bagged,
 
 # Print the model
 model_bagged
+
+# Predict on training set and add to training set
+predictions <- predict(model_bagged,
+                   new_data = customers_train, 
+                   type = "prob") %>% 
+    bind_cols(customers_train)
+
+# Create and plot the ROC curve
+roc_curve(predictions,
+          estimate = .pred_yes,
+          truth = still_customer) %>% autoplot()
+
+# Calculate the AUC
+roc_auc(predictions,
+    estimate = .pred_yes, 
+    truth = still_customer)
+
