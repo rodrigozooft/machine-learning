@@ -349,3 +349,24 @@ boost_spec <- boost_tree() %>%
 	set_engine("xgboost")
 
 boost_spec
+
+# Train the model on the training set
+boost_model <- fit(boost_spec,
+                   still_customer ~ .,
+                   customers_train)
+
+boost_model
+
+set.seed(99)
+
+# Create CV folds
+folds <- vfold_cv(customers_train, v = 5)
+
+# Fit and evaluate models for all folds
+cv_results <- fit_resamples(boost_spec,
+                            still_customer ~ . ,
+                            resamples = folds,
+                            metrics = metric_set(roc_auc))
+
+# Collect cross-validated metrics
+collect_metrics(cv_results)
