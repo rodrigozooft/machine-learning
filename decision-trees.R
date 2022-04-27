@@ -340,3 +340,12 @@ model <- spec %>%
 
 # Plot the variable importance
 vip::vip(model)
+
+# Specify the model class
+boost_spec <- boost_tree() %>%
+	# Set the mode
+	set_mode("classification") %>%
+	# Set the engine
+	set_engine("xgboost")
+
+boost_spec
