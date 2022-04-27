@@ -370,3 +370,34 @@ cv_results <- fit_resamples(boost_spec,
 
 # Collect cross-validated metrics
 collect_metrics(cv_results)
+
+set.seed(100)
+
+# Specify, fit, predict, and combine with training data
+predictions <- boost_tree() %>%
+  set_mode("classification") %>%
+  set_engine("xgboost") %>% 
+  fit(still_customer ~ ., data = customers_train) %>%
+  predict(new_data = customers_train, type = "prob") %>% 
+  bind_cols(customers_train)
+
+
+# Calculate AUC
+roc_auc(predictions, 
+        truth = still_customer, 
+        estimate = .pred_yes)
+
+set.seed(100)
+
+# Specify, fit, predict and combine with training data
+predictions <- decision_tree() %>%
+  set_mode("classification") %>%
+  set_engine("rpart") %>% 
+  fit(still_customer ~ ., data = customers_train) %>%
+  predict(new_data = customers_train, type = "prob") %>% 
+  bind_cols(customers_train)
+
+# Calculate AUC
+roc_auc(predictions, 
+        truth = still_customer,
+        estimate = .pred_yes)
