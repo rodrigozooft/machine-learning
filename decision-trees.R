@@ -317,3 +317,13 @@ roc_auc(predictions,
     estimate = .pred_yes, 
     truth = still_customer)
 
+set.seed(55)
+
+# Estimate AUC using cross-validation
+cv_results <- fit_resamples(spec_bagged,
+                            still_customer ~ total_trans_amt + customer_age + education_level, 
+                            resamples = vfold_cv(customers_train, v = 3),
+                            metrics = metric_set(roc_auc))
+
+# Collect metrics
+collect_metrics(cv_results)
