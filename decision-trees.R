@@ -327,3 +327,16 @@ cv_results <- fit_resamples(spec_bagged,
 
 # Collect metrics
 collect_metrics(cv_results)
+
+# Specify a random forest
+spec <- rand_forest() %>%
+	set_mode("classification") %>%
+    set_engine("ranger", importance = "impurity")
+
+# Train the forest
+model <- spec %>%
+    fit(still_customer ~ .,
+        customers_train)
+
+# Plot the variable importance
+vip::vip(model)
