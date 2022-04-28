@@ -455,3 +455,18 @@ combined <- bind_rows(decision_tree = auc_tree,
                       .id = "model")
 
 combined
+
+# Reshape the predictions into long format
+predictions_long <- tidyr::pivot_longer(preds_combined,
+                                        cols = starts_with("preds_"),
+                                        names_to = "model",
+                                        values_to = "predictions")
+
+predictions_long %>% 
+  # Group by model
+  group_by(model) %>% 
+  # Calculate values for every cutoff
+  roc_curve(truth = still_customer, 
+      estimate = predictions) %>%
+  # Create a plot from the calculated data
+  autoplot()
