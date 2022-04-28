@@ -429,3 +429,14 @@ tune_results <- tune_grid(boost_spec,
 
 # Plot the results
 autoplot(tune_results)
+
+# Select the final hyperparameters
+best_params <- select_best(tune_results)
+
+# Finalize the specification
+final_spec <- finalize_model(boost_spec, best_params)
+
+# Train the final model on the full training data
+final_model <- final_spec %>% fit(still_customer ~ ., customers_train)
+
+final_model
