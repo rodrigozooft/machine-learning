@@ -11,3 +11,15 @@ plot_df <- ggplot(data = df, aes(x = sugar_content, y = 0)) +
 
 # Display plot
 plot_df
+
+#The maximal margin separator is at the midpoint of the two extreme points in each cluster.
+mm_separator <- (10 + 8.9)/2
+
+#create data frame containing the maximum margin separator
+separator <- data.frame(sep = mm_separator)
+
+#add ggplot layer 
+plot_sep <- plot_ + geom_point(data = separator, aes(x = sep, y = 0), color = "blue", size = 4)
+
+#display plot
+plot_sep
