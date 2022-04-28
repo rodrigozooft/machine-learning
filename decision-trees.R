@@ -416,3 +416,16 @@ tunegrid_boost <- grid_regular(parameters(boost_spec),
                       levels = 3)
 
 tunegrid_boost
+
+# Create CV folds of training data
+folds <- vfold_cv(customers_train, v = 6)
+
+# Tune along the grid
+tune_results <- tune_grid(boost_spec,
+                    still_customer ~ .,
+                    resamples = folds,
+                    grid = tunegrid_boost,
+                    metrics = metric_set(roc_auc))
+
+# Plot the results
+autoplot(tune_results)
