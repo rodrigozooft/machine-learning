@@ -401,3 +401,18 @@ predictions <- decision_tree() %>%
 roc_auc(predictions, 
         truth = still_customer,
         estimate = .pred_yes)
+
+# Create the specification with placeholders
+boost_spec <- boost_tree(
+                trees = 500,
+                learn_rate = tune(),
+                tree_depth = tune(),
+                sample_size = tune()) %>%
+  set_mode("classification") %>%
+  set_engine("xgboost")
+
+# Create the tuning grid
+tunegrid_boost <- grid_regular(parameters(boost_spec), 
+                      levels = 3)
+
+tunegrid_boost
