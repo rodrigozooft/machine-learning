@@ -123,4 +123,15 @@ plot_margins <- plot_decision +
  geom_abline(slope = slope_1, intercept = intercept_1 - 1/w[2], linetype = "dashed")+
  geom_abline(slope = slope_1, intercept = intercept_1 + 1/w[2], linetype = "dashed")
 #display plot
-plot_margins
+plot_margins 
+
+#load required library
+library(e1071)
+
+#build svm model
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear", scale = FALSE)
+
+#plot decision boundaries and support vectors for the training data
+plot(x = svm_model, data = trainset)
