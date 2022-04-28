@@ -156,6 +156,23 @@ train_plot_with_margins <- train_plot +
 #display plot
 train_plot_with_margins
 
+#load library and build svm model
+library(e1071)
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear", scale = FALSE)
+
+#compute training accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+
+#compute test accuracy
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot
+plot(svm_model, trainset)
+
 #add decision boundary and margins for cost = 100 to training data scatter plot
 train_plot_with_margins <- train_plot_100 + 
     geom_abline(slope = slope_100, intercept = intercept_100, color = "goldenrod") +
