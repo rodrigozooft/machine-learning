@@ -135,3 +135,14 @@ svm_model<-
 
 #plot decision boundaries and support vectors for the training data
 plot(x = svm_model, data = trainset)
+
+#build svm model, cost = 100
+svm_model_100 <- svm(y ~ .,
+                   data = trainset,
+                   type = "C-classification",
+                   cost = 100,
+                   kernel = "linear",
+                   scale = FALSE)
+
+#print model details
+svm_model_100
