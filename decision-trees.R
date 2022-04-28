@@ -440,3 +440,18 @@ final_spec <- finalize_model(boost_spec, best_params)
 final_model <- final_spec %>% fit(still_customer ~ ., customers_train)
 
 final_model
+
+# Calculate the AUC for each model
+auc_tree   <- roc_auc(preds_combined, truth = still_customer, estimate = preds_tree)
+auc_bagged <- roc_auc(preds_combined, truth = still_customer, estimate = preds_bagging)
+auc_forest <- roc_auc(preds_combined, truth = still_customer, estimate = preds_forest)
+auc_boost  <- roc_auc(preds_combined, truth = still_customer, estimate = preds_boosting)
+
+# Combine AUCs into one tibble
+combined <- bind_rows(decision_tree = auc_tree,
+                      bagged_tree = auc_bagged,
+                      random_forest = auc_forest,
+                      boosted_tree = auc_boost,
+                      .id = "model")
+
+combined
