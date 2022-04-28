@@ -146,3 +146,21 @@ svm_model_100 <- svm(y ~ .,
 
 #print model details
 svm_model_100
+
+#add decision boundary and margins for cost = 1 to training data scatter plot
+train_plot_with_margins <- train_plot + 
+    geom_abline(slope = slope_1, intercept = intercept_1) +
+    geom_abline(slope = slope_1, intercept = intercept_1-1/w_1[2], linetype = "dashed")+
+    geom_abline(slope = slope_1, intercept = intercept_1+1/w_1[2], linetype = "dashed")
+
+#display plot
+train_plot_with_margins
+
+#add decision boundary and margins for cost = 100 to training data scatter plot
+train_plot_with_margins <- train_plot_100 + 
+    geom_abline(slope = slope_100, intercept = intercept_100, color = "goldenrod") +
+    geom_abline(slope = slope_100, intercept = intercept_100-1/w_100[2], linetype = "dashed", color = "goldenrod")+
+    geom_abline(slope = slope_100, intercept = intercept_100+1/w_100[2], linetype = "dashed", color = "goldenrod")
+
+#display plot 
+plot(train_plot_with_margins)
