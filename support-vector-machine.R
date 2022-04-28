@@ -53,3 +53,18 @@ plot_margins <- ggplot(data = df1, aes(x = x1, y = x2, color = y)) + geom_point(
  
 #display plot
 plot_margins
+
+#split train and test data in an 80/20 proportion
+df[, "train"] <- ifelse(runif(nrow(df))<0.8, 1, 0)
+
+#assign training rows to data frame trainset
+trainset <- df[df$train == 1, ]
+#assign test rows to data frame testset
+testset <- df[df$train == 0, ]
+
+#find index of "train" column
+trainColNum <- grep("train", names(df))
+
+#remove "train" column from train and test dataset
+trainset <- trainset[, -trainColNum]
+testset <- testset[, -trainColNum]
