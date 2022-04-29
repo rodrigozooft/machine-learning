@@ -224,3 +224,23 @@ scatter_plot <- ggplot(data = df, aes(x = x1, y = x2, color = y)) +
 
 #display plot
 scatter_plot
+
+#default cost mode;
+svm_model_1 <- svm(y ~ ., data = trainset, type = "C-classification", cost = 1, kernel = "linear")
+
+#training accuracy
+pred_train <- predict(svm_model_1, trainset)
+mean(pred_train == trainset$y)
+
+#test accuracy
+pred_test <- predict(svm_model_1, testset)
+mean(pred_test == testset$y)
+
+#cost = 100 model
+svm_model_2 <- svm(y ~ ., data = trainset, type = "C-classification", cost = 100, kernel = "linear")
+
+#accuracy
+pred_train <- predict(svm_model_2, trainset)
+mean(pred_train == trainset$y)
+pred_test <- predict(svm_model_2, testset)
+mean(pred_test == testset$y)
