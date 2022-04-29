@@ -302,3 +302,19 @@ tune_out <-
 tune_out$best.parameters$cost
 tune_out$best.parameters$gamma
 tune_out$best.parameters$coef0
+
+#Build tuned model
+svm_model <- svm(y~ ., data = trainset, type = "C-classification", 
+                 kernel = 'polynomial', degree = 2, 
+                 cost = tune_out$best.parameters$cost, 
+                 gamma = tune_out$best.parameters$gamma, 
+                 coef0 = tune_out$best.parameters$coef0)
+
+#Calculate training and test accuracies
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot model
+plot(svm_model, trainset)
