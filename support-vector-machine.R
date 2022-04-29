@@ -339,3 +339,30 @@ radius_squared <- radius^2
 df$y <- factor(ifelse((df$x1-center_1[1])^2 + (df$x2-center_1[2])^2 < radius_squared|
                       (df$x1-center_2[1])^2 + (df$x2-center_2[2])^2 < radius_squared, -1, 1),
                       levels = c(-1, 1))
+
+# Load ggplot2
+library(ggplot2)
+
+# Plot x2 vs. x1, colored by y
+scatter_plot<- ggplot(data = df, aes(x = x1, y = x2, color = y)) + 
+    # Add a point layer
+    geom_point() + 
+    scale_color_manual(values = c("red", "blue")) +
+    # Specify equal coordinates
+    coord_equal()
+ 
+scatter_plot
+
+#build model
+svm_model<- 
+    svm(y ~ ., data = trainset, type = "C-classification", 
+        kernel = "linear")
+
+#accuracy
+pred_train <- predict(svm_model, trainset)
+mean(pred_train == trainset$y)
+pred_test <- predict(svm_model, testset)
+mean(pred_test == testset$y)
+
+#plot model against testset
+plot(svm_model, testset)
