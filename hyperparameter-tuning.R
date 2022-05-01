@@ -15,3 +15,23 @@ ggplot(data = breast_cancer_data,
   geom_point(color = "grey") +
   geom_abline(slope = linear_model$coefficients[2], 
       intercept = linear_model$coefficients[1])
+
+# Create partition index
+index <- createDataPartition(breast_cancer_data$diagnosis, p = 0.7, list = FALSE)
+
+# Subset `breast_cancer_data` with index
+bc_train_data <- breast_cancer_data[index, ]
+bc_test_data  <- breast_cancer_data[-index, ]
+
+# Define 3x5 folds repeated cross-validation
+fitControl <- trainControl(method = "repeatedcv", number = 5, repeats = 3)
+
+# Run the train() function
+gbm_model <- train(diagnosis ~ ., 
+                   data = bc_train_data, 
+                   method = "gbm", 
+                   trControl = fitControl,
+                   verbose = FALSE)
+
+# Look at the model
+gbm_model
