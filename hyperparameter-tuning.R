@@ -35,3 +35,17 @@ gbm_model <- train(diagnosis ~ .,
 
 # Look at the model
 gbm_model
+
+# Set seed.
+set.seed(42)
+# Start timer.
+tic()
+# Train model.
+gbm_model <- train(diagnosis ~ ., 
+                   data = bc_train_data, 
+                   method = "gbm", 
+                   trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3),
+                   verbose = FALSE,
+                   tuneLength = 4)
+# Stop timer.
+toc()
