@@ -49,3 +49,18 @@ gbm_model <- train(diagnosis ~ .,
                    tuneLength = 4)
 # Stop timer.
 toc()
+
+# Define hyperparameter grid.
+hyperparams <- expand.grid(n.trees = 200, 
+                           interaction.depth = 1, 
+                           shrinkage = 0.1, 
+                           n.minobsinnode = 10)
+
+# Apply hyperparameter grid to train().
+set.seed(42)
+gbm_model <- train(diagnosis ~ ., 
+                   data = bc_train_data, 
+                   method = "gbm", 
+                   trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3),
+                   verbose = FALSE,
+                   tuneGrid = hyperparams)
