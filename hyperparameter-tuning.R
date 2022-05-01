@@ -64,3 +64,19 @@ gbm_model <- train(diagnosis ~ .,
                    trControl = trainControl(method = "repeatedcv", number = 5, repeats = 3),
                    verbose = FALSE,
                    tuneGrid = hyperparams)
+
+# Define Cartesian grid
+man_grid <- expand.grid(degree = c(1, 2, 3), 
+                        scale = c(0.1, 0.01, 0.001), 
+                        C = 0.5)
+
+# Start timer, set seed & train model
+tic()
+set.seed(42)
+svm_model_voters_grid <- train(turnout16_2016 ~ ., 
+                   data = voters_train_data, 
+                   method = "svmPoly", 
+                   trControl = fitControl,
+                   verbose= FALSE,
+                   tuneGrid = man_grid)
+toc()
