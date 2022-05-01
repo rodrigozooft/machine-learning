@@ -80,3 +80,9 @@ svm_model_voters_grid <- train(turnout16_2016 ~ .,
                    verbose= FALSE,
                    tuneGrid = man_grid)
 toc()
+
+# Plot default
+plot(svm_model_voters_grid)
+
+# Plot Kappa level-plot
+plot(svm_model_voters_grid, metric = "Kappa", plotType = "level")
