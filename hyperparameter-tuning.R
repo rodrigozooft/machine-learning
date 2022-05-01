@@ -103,3 +103,19 @@ nn_model_voters_big_grid <- train(turnout16_2016 ~ .,
                    verbose = FALSE,
                    tuneGrid = big_grid)
 toc()
+
+# Define trainControl function
+fitControl <- trainControl(method = "adaptive_cv",
+                           number = 3, repeats = 3,
+                           adaptive = list(min = 3, alpha = 0.05, method = "BT", complete = FALSE),
+                           search = "random")
+
+# Start timer & train model
+tic()
+svm_model_voters_ar <- train(turnout16_2016 ~ ., 
+                   data = voters_train_data, 
+                   method = "nnet", 
+                   trControl = fitControl,
+                   verbose = FALSE,
+                   tuneLength = 6)
+toc()
