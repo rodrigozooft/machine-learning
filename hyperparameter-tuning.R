@@ -119,3 +119,18 @@ svm_model_voters_ar <- train(turnout16_2016 ~ .,
                    verbose = FALSE,
                    tuneLength = 6)
 toc()
+
+# Create classification taks
+task <- makeClassifTask(data = knowledge_train_data, 
+                        target = "UNS")
+
+# Call the list of learners
+listLearners() %>%
+ as.data.frame() %>%
+ select(class, short.name, package) %>%
+ filter(grepl("classif.", class))
+
+# Create learner
+lrn <- makeLearner("classif.randomForest", 
+                   predict.type = "prob", 
+                   fix.factors.prediction = TRUE)
