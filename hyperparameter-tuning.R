@@ -179,3 +179,15 @@ plotHyperParsEffect(hyperpar_effects,
     partial.dep.learn = "regr.glm",
     x = "minsplit", y = "mmce.test.mean", z = "maxdepth",
     plot.type = "line")
+
+# Create holdout sampling
+holdout <- makeResampleDesc("Holdout", predict = "both")
+
+# Perform tuning
+lrn_tune <- tuneParams(learner = lrn, 
+                       task = task, 
+                       resampling = holdout, 
+                       control = ctrl_random, 
+                       par.set = param_set,
+                       measures = list(acc, setAggregation(acc, train.mean), 
+                                       mmce, setAggregation(mmce, train.mean)))
