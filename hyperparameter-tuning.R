@@ -134,3 +134,18 @@ listLearners() %>%
 lrn <- makeLearner("classif.randomForest", 
                    predict.type = "prob", 
                    fix.factors.prediction = TRUE)
+
+# Get the parameter set for neural networks of the nnet package
+getParamSet("classif.nnet")
+
+# Define set of parameters
+param_set <- makeParamSet(
+  makeDiscreteParam("size", values = c(2,3,5)),
+  makeNumericParam("decay", lower = 0.0001, upper = 0.1)
+)
+
+# Print parameter set
+print(param_set)
+
+# Define a random search tuning method.
+ctrl_random <- makeTuneControlRandom()
