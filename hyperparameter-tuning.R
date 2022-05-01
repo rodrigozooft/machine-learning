@@ -149,3 +149,18 @@ print(param_set)
 
 # Define a random search tuning method.
 ctrl_random <- makeTuneControlRandom()
+
+# Define a random search tuning method.
+ctrl_random <- makeTuneControlRandom(maxit = 6)
+
+# Define a 3 x 3 repeated cross-validation scheme
+cross_val <- makeResampleDesc("RepCV", folds = 3 * 3)
+
+# Tune hyperparameters
+tic()
+lrn_tune <- tuneParams(lrn,
+                       task,
+                       resampling = cross_val,
+                       control = ctrl_random,
+                       par.set = param_set)
+toc()
