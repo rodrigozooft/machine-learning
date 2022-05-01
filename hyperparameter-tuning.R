@@ -164,3 +164,18 @@ lrn_tune <- tuneParams(lrn,
                        control = ctrl_random,
                        par.set = param_set)
 toc()
+
+# Create holdout sampling
+holdout <- makeResampleDesc("Holdout")
+
+# Perform tuning
+lrn_tune <- tuneParams(learner = lrn, task = task, resampling = holdout, control = ctrl_random, par.set = param_set)
+
+# Generate hyperparameter effect data
+hyperpar_effects <- generateHyperParsEffectData(lrn_tune, partial.dep = TRUE)
+
+# Plot hyperparameter effects
+plotHyperParsEffect(hyperpar_effects, 
+    partial.dep.learn = "regr.glm",
+    x = "minsplit", y = "mmce.test.mean", z = "maxdepth",
+    plot.type = "line")
