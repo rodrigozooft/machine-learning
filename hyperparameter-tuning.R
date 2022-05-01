@@ -191,3 +191,11 @@ lrn_tune <- tuneParams(learner = lrn,
                        par.set = param_set,
                        measures = list(acc, setAggregation(acc, train.mean), 
                                        mmce, setAggregation(mmce, train.mean)))
+
+# Set hyperparameters
+lrn_best <- setHyperPars(lrn, par.vals = list(size = 1, 
+                                              maxit = 150, 
+                                              decay = 0))
+
+# Train model
+model_best <- train(lrn_best, task)
