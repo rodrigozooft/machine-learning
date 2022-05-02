@@ -261,4 +261,4 @@ automl_model <- h2o.automl(x = x,
                            max_runtime_secs = 10,
                            sort_metric = "mean_per_class_error",
                            validation_frame = valid,
-                           seed = 42)
+                           seed = 42) 
