@@ -29,3 +29,29 @@ train <- diamonds[1:split, ]
 
 # Create test
 test <- diamonds[(split + 1):nrow(diamonds), ] 
+
+# Fit lm model on train: model
+model <- lm(price ~ ., data = train)
+
+# Predict on test: p
+p <- predict(model, test, type = "response")
+
+# Compute errors: error
+error <- p - test$price
+
+# Calculate RMSE
+sqrt(mean(error ^ 2))
+
+# Fit lm model using 10-fold CV: model
+model <- train(
+  price ~ ., 
+  diamonds,
+  method = "lm",
+  trControl = trainControl(
+    method = "cv", 
+    number = 10,
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
