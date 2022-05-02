@@ -55,3 +55,17 @@ model <- train(
 )
 
 # Print model to console
+
+# Fit lm model using 5-fold CV: model
+model <- train(
+  medv ~ ., 
+  Boston,
+  method = "lm",
+  trControl = trainControl(
+    method = "cv", 
+    number = 5,
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
