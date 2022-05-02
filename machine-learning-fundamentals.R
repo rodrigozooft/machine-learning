@@ -11,3 +11,12 @@ error <- p - diamonds$price
 # Calculate RMSE
 
 sqrt(mean(error ^ 2))
+
+# Set seed
+set.seed(42)
+
+# Shuffle row indices: rows
+rows <- sample(nrow(diamonds))
+
+# Randomly order data
+shuffled_diamonds <- diamonds[rows, ]
