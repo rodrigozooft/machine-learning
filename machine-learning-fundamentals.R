@@ -137,3 +137,9 @@ p_class <- factor(m_or_r, levels = levels(test[["Class"]]))
 
 # Create confusion matrix
 confusionMatrix(p_class, test[["Class"]])
+
+# Predict on test: p
+p <- predict(model, test, type = "response")
+
+# Make ROC curve
+colAUC(p, test$Class, plotROC = TRUE)
