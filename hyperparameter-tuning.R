@@ -232,3 +232,8 @@ h2o.confusionMatrix(perf)
 
 # Extract logloss
 h2o.logloss(perf)
+
+# Define hyperparameters
+dl_params <- list(shuffle_training_data = list(c(50,50), c(100,100)),
+                  epochs = c(5, 10, 15),
+                  rate = c(0.001, 0.005, 0.01))
