@@ -253,3 +253,12 @@ dl_grid <- h2o.grid("deeplearning",
                     seed = 42,
                     hyper_params = dl_params,
                     search_criteria = search_criteria)
+
+# Run automatic machine learning
+automl_model <- h2o.automl(x = x, 
+                           y = y,
+                           training_frame = train,
+                           max_runtime_secs = 10,
+                           sort_metric = "mean_per_class_error",
+                           validation_frame = valid,
+                           seed = 42)
