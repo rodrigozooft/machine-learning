@@ -237,3 +237,19 @@ h2o.logloss(perf)
 dl_params <- list(shuffle_training_data = list(c(50,50), c(100,100)),
                   epochs = c(5, 10, 15),
                   rate = c(0.001, 0.005, 0.01))
+
+# Define search criteria
+search_criteria <- list(strategy = "RandomDiscrete", 
+                        max_runtime_secs = 10, # this is way too short & only used to keep runtime short!
+                        seed = 42)
+
+# Train with random search
+dl_grid <- h2o.grid("deeplearning", 
+                    grid_id = "dl_grid",
+                    x = x, 
+                    y = y,
+                    training_frame = train,
+                    validation_frame = valid,
+                    seed = 42,
+                    hyper_params = dl_params,
+                    search_criteria = search_criteria)
