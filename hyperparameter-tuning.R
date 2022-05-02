@@ -217,3 +217,18 @@ valid <- sframe[[2]]
 
 # Calculate ratio of the target variable in the training set
 summary(train$seed_type, exact_quantiles = TRUE)
+
+# Train random forest model
+rf_model <- h2o.randomForest(x = x,
+                             y = y,
+                             training_frame = train,
+                             validation_frame = valid)
+
+# Calculate model performance
+perf <- h2o.performance(rf_model, valid = TRUE)
+
+# Extract confusion matrix
+h2o.confusionMatrix(perf)
+
+# Extract logloss
+h2o.logloss(perf)
