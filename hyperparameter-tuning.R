@@ -199,3 +199,21 @@ lrn_best <- setHyperPars(lrn, par.vals = list(size = 1,
 
 # Train model
 model_best <- train(lrn_best, task)
+
+# Initialise h2o cluster
+h2o.init()
+
+# Convert data to h2o frame
+seeds_train_data_hf <- as.h2o(seeds_train_data)
+
+# Identify target and features
+y <- "seed_type"
+x <- setdiff(colnames(seeds_train_data_hf), y)
+
+# Split data into train & validation sets
+sframe <- h2o.splitFrame(seeds_train_data_hf, seed = 42)
+train <- sframe[[1]]
+valid <- sframe[[2]]
+
+# Calculate ratio of the target variable in the training set
+summary(train$seed_type, exact_quantiles = TRUE)
