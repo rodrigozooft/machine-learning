@@ -233,3 +233,17 @@ myControl <- trainControl(
   classProbs = TRUE, # IMPORTANT!
   verboseIter = TRUE
 )
+
+# Fit glmnet model: model
+model <- train(
+  y ~ . , 
+  data = overfit,
+  method = "glmnet",
+  trControl = myControl
+)
+
+# Print model to console
+model
+
+# Print maximum ROC statistic
+max(model[["results"]]$ROC)
