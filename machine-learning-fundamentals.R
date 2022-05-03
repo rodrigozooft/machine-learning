@@ -265,3 +265,15 @@ model
 
 # Print maximum ROC statistic
 max(model[["results"]][["ROC"]])
+
+# Apply median imputation: median_model
+median_model <- train(
+  x = breast_cancer_x, 
+  y = breast_cancer_y,
+  method = "glm",
+  trControl = myControl,
+  preProcess = "medianImpute"
+)
+
+# Print median_model to console
+median_model
