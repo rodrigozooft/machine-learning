@@ -198,3 +198,29 @@ model <- train(
 
 # Plot model
 plot(model)
+
+# From previous step
+tuneGrid <- data.frame(
+  .mtry = c(2, 3, 7),
+  .splitrule = "variance",
+  .min.node.size = 5
+)
+
+# Fit random forest: model
+model <- train(
+  quality ~ .,
+  tuneGrid = tuneGrid,
+  data = wine, 
+  method = "ranger",
+  trControl = trainControl(
+    method = "cv", 
+    number = 5, 
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
+model
+
+# Plot model
+plot(model)
