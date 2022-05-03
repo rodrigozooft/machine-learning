@@ -164,3 +164,18 @@ model <- train(
 
 # Print model to console
 model
+
+# Fit random forest: model
+model <- train(
+  quality ~ .,
+  tuneLength = 1,
+  data = wine, 
+  method = "ranger",
+  trControl = trainControl(
+    method = "cv", 
+    number = 5, 
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
