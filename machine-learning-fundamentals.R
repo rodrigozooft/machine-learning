@@ -247,3 +247,21 @@ model
 
 # Print maximum ROC statistic
 max(model[["results"]]$ROC)
+
+# Train glmnet with custom trainControl and tuning: model
+model <- train(
+  y ~ ., 
+  data = overfit,
+  tuneGrid = expand.grid(
+    alpha = 0:1,
+    lambda = seq(0.0001, 1, length = 20)
+  ),
+  method = "glmnet",
+  trControl = myControl
+)
+
+# Print model to console
+model
+
+# Print maximum ROC statistic
+max(model[["results"]][["ROC"]])
