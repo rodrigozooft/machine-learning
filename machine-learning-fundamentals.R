@@ -277,3 +277,15 @@ median_model <- train(
 
 # Print median_model to console
 median_model
+
+# Apply KNN imputation: knn_model
+knn_model <- train(
+  x = breast_cancer_x, 
+  y = breast_cancer_y,
+  method = "glm",
+  trControl = myControl,
+  preProcess = "knnImpute"
+)
+
+# Print knn_model to console
+knn_model
