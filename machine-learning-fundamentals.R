@@ -143,3 +143,24 @@ p <- predict(model, test, type = "response")
 
 # Make ROC curve
 colAUC(p, test$Class, plotROC = TRUE)
+
+# Create trainControl object: myControl
+myControl <- trainControl(
+  method = "cv",
+  number = 10,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE, # IMPORTANT!
+  verboseIter = TRUE
+)
+
+# Train glm with custom trainControl: model
+model <- train(
+    Class ~., 
+    Sonar,
+    method = "glm",
+    trControl = myControl
+)
+
+
+# Print model to console
+model
