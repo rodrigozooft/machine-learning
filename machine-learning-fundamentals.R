@@ -289,3 +289,15 @@ knn_model <- train(
 
 # Print knn_model to console
 knn_model
+
+# Update model with standardization
+model <- train(
+  x = breast_cancer_x, 
+  y = breast_cancer_y,
+  method = "glm",
+  trControl = myControl,
+  preProcess = c("center", "scale")
+)
+
+# Print updated model
+model
