@@ -179,3 +179,22 @@ model <- train(
 )
 
 # Print model to console
+
+# Fit random forest: model
+model <- train(
+  quality ~ .,
+  tuneLength = 3,
+  data = wine, 
+  method = "ranger",
+  trControl = trainControl(
+    method = "cv", 
+    number = 5, 
+    verboseIter = TRUE
+  )
+)
+
+# Print model to console
+
+
+# Plot model
+plot(model)
