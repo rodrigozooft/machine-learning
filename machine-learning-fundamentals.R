@@ -344,3 +344,12 @@ myControl <- trainControl(
   savePredictions = TRUE,
   index = myFolds
 )
+
+# Fit glmnet model: model_glmnet
+model_glmnet <- train(
+  x = churn_x, 
+  y = churn_y,
+  metric = "ROC",
+  method = "glmnet",
+  trControl = myControl
+)
