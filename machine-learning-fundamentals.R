@@ -371,3 +371,6 @@ resamples <- resamples(model_list)
 
 # Summarize the results
 summary(resamples)
+
+# Create bwplot
+bwplot(resamples, metric = "ROC")
