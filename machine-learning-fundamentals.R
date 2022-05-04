@@ -311,3 +311,13 @@ all_cols <- names(bloodbrain_x)
 
 # Remove from data: bloodbrain_x_small
 bloodbrain_x_small <- bloodbrain_x[ , setdiff(all_cols, remove_cols)]
+
+# Fit model on reduced data: model
+model <- train(
+  x = bloodbrain_x_small, 
+  y = bloodbrain_y, 
+  method = "glm"
+)
+
+# Print model to console
+model
