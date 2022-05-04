@@ -353,3 +353,12 @@ model_glmnet <- train(
   method = "glmnet",
   trControl = myControl
 )
+
+# Fit random forest: model_rf
+model_rf <- train(
+  x = churn_x, 
+  y = churn_y,
+  metric = "ROC",
+  method = "ranger",
+  trControl = myControl
+)
