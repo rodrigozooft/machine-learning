@@ -321,3 +321,14 @@ model <- train(
 
 # Print model to console
 model
+
+# Fit glm model using PCA: model
+model <- train(
+  x = bloodbrain_x, 
+  y = bloodbrain_y,
+  method = "glm", 
+  preProcess = "pca"
+)
+
+# Print model to console
+model
